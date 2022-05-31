@@ -8,6 +8,12 @@ public class PlayerMovement : EntityMovement
     private Joystick joystickMove;
     [SerializeField]
     private ScreenDrag dragRotatePlayer;
+    [SerializeField]
+    private ScreenDrag dragRotateGunShot;
+    [SerializeField]
+    private PointerButton pointerJump;
+    [SerializeField]
+    private PointerButton pointerShoot;
     private float xRotation = 0f;
     private float yRotation = 0f;
     protected override void Start()
@@ -26,13 +32,30 @@ public class PlayerMovement : EntityMovement
     protected override void GetDirectionMove(){
         // Get Direction Player By Joystick
         if (characterController.isGrounded){
-            moveX = joystickMove.Horizontal;
-            moveZ = joystickMove.Vertical;
+            Vector2 move = new Vector2(joystickMove.Horizontal, joystickMove.Vertical);
+            move.Normalize();
+            moveX = move.x;
+            moveZ = move.y;
+            if (pointerJump.isPressing){
+                moveY = entityStats.JumpForce;
+                pointerJump.isPressing = false;
+            }
         }
     }
     private void RotatePlayer(){
-        xRotation -= dragRotatePlayer.X * Time.deltaTime;
-        yRotation -= dragRotatePlayer.Y * Time.deltaTime;
+        // Prioritize rotating according to the fire button
+        if (pointerShoot.isPressing){
+            // Rotate character by drag button shoot
+            xRotation -= dragRotateGunShot.X * Time.deltaTime * 5f;
+            yRotation -= dragRotateGunShot.Y * Time.deltaTime * 5f;
+        } else {
+            // Rotate character by drag screen
+            xRotation -= dragRotatePlayer.X * Time.deltaTime;
+            yRotation -= dragRotatePlayer.Y * Time.deltaTime;
+        }
+        
+        
+        
         yRotation = Mathf.Clamp(yRotation, -50f, 50f);
         transform.localRotation = Quaternion.Euler(yRotation, -xRotation,0f);
     }

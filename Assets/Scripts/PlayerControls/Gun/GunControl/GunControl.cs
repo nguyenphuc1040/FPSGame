@@ -26,4 +26,7 @@ public class GunControl : MonoBehaviour
     public void Shoot(){
         asGun.PlayOneShot(acShoot);
     }
+    public void Reload(){
+        asGun.PlayOneShot(acReload);
+    }
 }

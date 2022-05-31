@@ -25,15 +25,14 @@ public class EntityMovement : MonoBehaviour
     protected virtual void Move(){
         
         if (characterController.isGrounded){
-            float x = moveX * entityStats.MoveSpeed;
-            float z = moveZ * entityStats.MoveSpeed;
+            float x = moveX * entityStats.MoveSpeed; // move left right
+            float z = moveZ * entityStats.MoveSpeed; // move back forward
             move = transform.right*x + transform.forward*z;
-            if (Input.GetKeyDown(KeyCode.Space)){
-                move.y = 4.5f;
-            }
+            move.y = moveY;
         }
-        move.y -= 9.8f*Time.deltaTime;      
+        move.y -= 4.9f*Time.deltaTime; // Gravity acceleration
         characterController.Move(move*Time.deltaTime);
+        moveY = 0;
     }
 
     protected virtual void GetDirectionMove(){
