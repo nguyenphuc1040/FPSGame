@@ -20,13 +20,15 @@ public class EntityMovement : MonoBehaviour
         entityBehaviours = gameObject.GetComponent<EntityBehaviours>();
         entityStats.CurrentMoveSpeed = entityStats.MoveSpeed;
     }
-
+    protected virtual void FixedUpdate(){
+        if (!entityStats.IsAlive) return;
+    }
     protected virtual void Update()
     {
         if (!entityStats.IsAlive) return;
-        Move();
         GetDirectionMoveMoblie();
         GetDirectionMovePC();
+        Move();
     }
 
     protected virtual void Move(){

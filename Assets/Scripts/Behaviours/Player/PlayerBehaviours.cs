@@ -51,9 +51,12 @@ public class PlayerBehaviours : EntityBehaviours
     }
     public void EventReload(){
         if (eventReload.isPressing){
+            eventReload.isPressing = false;
+            if (gunAkControl.IsFullBullet()) {
+                return;
+            }
             entityAnimator.SetTrigger("Reload");
             gunAkControl.gunAnimator.SetTrigger("Reload");
-            eventReload.isPressing = false;
         }
     }
     public void OnHurtByZombie(int damage){

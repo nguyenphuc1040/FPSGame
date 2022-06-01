@@ -10,9 +10,9 @@ public class EntityStats : MonoBehaviour
         get {return currentHealthPoint;}
         set {currentHealthPoint = value < 0 ? 0 : value; }
     }
-    public int MoveSpeed;
-    public int CurrentMoveSpeed;
-    public int JumpForce;
+    public float MoveSpeed;
+    public float CurrentMoveSpeed;
+    public float JumpForce;
     private bool isAlive = true;
     public bool IsAlive {
         get {return isAlive;}

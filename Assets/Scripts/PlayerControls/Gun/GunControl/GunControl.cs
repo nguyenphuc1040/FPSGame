@@ -58,11 +58,15 @@ public class GunControl : MonoBehaviour
     }
     public void Reload(){
         if (!canPress) return;
+        if (bulletCount == maxBulletCount) return;
         if (WeaponManager.instance != null){
             int res = WeaponManager.instance.ReloadBullet(maxBulletCount, bulletCount);
             bulletCount += res;
             SetGunUI();
             asGun.PlayOneShot(acReload);
         }
+    }
+    public bool IsFullBullet(){
+        return maxBulletCount == bulletCount;
     }
 }

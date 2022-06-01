@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PPKey.Setting;
 
 public class PlayerMovement : EntityMovement
 {
@@ -17,6 +18,8 @@ public class PlayerMovement : EntityMovement
     private float xRotation = 0f;
     private float yRotation = 0f;
     private PlayerBehaviours playerBehaviours;
+    [SerializeField]
+    private float speedRotateShoot, speedRotateCamView;
     protected override void Start()
     {
         base.Start();
@@ -25,6 +28,9 @@ public class PlayerMovement : EntityMovement
     }
     private void InitComponent(){
         playerBehaviours = gameObject.GetComponent<PlayerBehaviours>();
+    }
+    protected override void FixedUpdate(){
+
     }
     protected override void Update()
     {
@@ -69,18 +75,18 @@ public class PlayerMovement : EntityMovement
             }
         }
     }
-    private void RotatePlayer(){
+    protected void RotatePlayer(){
         // Prioritize rotating according to the fire button
         if (pointerShoot.isPressing){
             // Rotate character by drag button shoot
-            xRotation -= dragRotateGunShot.X * Time.deltaTime * 5f;
-            yRotation -= dragRotateGunShot.Y * Time.deltaTime * 5f;
+            xRotation -= dragRotateGunShot.X * Time.deltaTime * speedRotateShoot * Mathf.Clamp(PlayerPrefs.GetFloat(SHOOT_ROTATE_SPEED),0.1f,1f);
+            yRotation -= dragRotateGunShot.Y * Time.deltaTime * speedRotateShoot * Mathf.Clamp(PlayerPrefs.GetFloat(SHOOT_ROTATE_SPEED),0.1f,1f);
         } else {
             // Rotate character by drag screen
-            xRotation -= dragRotatePlayer.X * Time.deltaTime;
-            yRotation -= dragRotatePlayer.Y * Time.deltaTime;
+            xRotation -= dragRotatePlayer.X * Time.deltaTime * Mathf.Clamp(PlayerPrefs.GetFloat(CAMERAVIEW_ROTATE_SPEED),0.1f,1f) *speedRotateCamView;
+            yRotation -= dragRotatePlayer.Y * Time.deltaTime * Mathf.Clamp(PlayerPrefs.GetFloat(CAMERAVIEW_ROTATE_SPEED),0.1f,1f) *speedRotateCamView;
         }
-        yRotation = Mathf.Clamp(yRotation, -50f, 50f);
+        yRotation = Mathf.Clamp(yRotation, -50f, 30f);
         transform.localRotation = Quaternion.Euler(yRotation, -xRotation,0f);
     }
 }

@@ -2,17 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieMovement : MonoBehaviour
+public class ZombieMovement : EntityMovement
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    public GameObject target;
+    protected override void Start(){
+        base.Start();
+    }
+    protected override void FixedUpdate(){
+        base.FixedUpdate();
         
     }
-
-    // Update is called once per frame
-    void Update()
+    protected override void Update(){
+        base.Update();
+    }
+    protected override void Move()
     {
-        
+        move = transform.forward * entityStats.CurrentMoveSpeed;
+        move.y -= 4.9f*Time.deltaTime;
+        characterController.Move(move * Time.deltaTime);
+        RotatePlayer();
+    }
+    protected void RotatePlayer(){
+        float angle = AngleBetweenTwoPoints(transform.position, target.transform.position);
+        transform.rotation = Quaternion.Euler(new Vector3(0f,(angle - 90f),0f));
+        // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(new Vector3(0f, (angle), 0)), Time.deltaTime);
+    }
+    private float AngleBetweenTwoPoints(Vector3 a, Vector3 b) { 
+        return Mathf.Atan2(a.z - b.z, a.x - b.x) * -Mathf.Rad2Deg;
     }
 }
