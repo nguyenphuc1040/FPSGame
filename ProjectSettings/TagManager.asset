@@ -7,6 +7,8 @@ TagManager:
   - Target
   - Metal
   - ExplosiveBarrel
+  - Bullet
+  - Zombie
   layers:
   - Default
   - TransparentFX

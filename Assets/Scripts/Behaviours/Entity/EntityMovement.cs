@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class EntityMovement : MonoBehaviour
 {
-    [SerializeField]
     protected EntityStats entityStats;
-    [SerializeField]
     protected CharacterController characterController;
     protected Vector3 move;
     protected float moveX, moveY, moveZ;
 
     protected virtual void Start()
     {
-        
+        characterController = gameObject.GetComponent<CharacterController>();
+        entityStats = gameObject.GetComponent<EntityStats>();
     }
 
     protected virtual void Update()
     {
+        if (!entityStats.IsAlive) return;
         Move();
         GetDirectionMove();
     }

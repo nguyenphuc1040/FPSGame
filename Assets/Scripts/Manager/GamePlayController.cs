@@ -1,18 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GamePlayController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public static GamePlayController instance;
+    public Text txtFps;
+    public int fps = 0;
+    private void Awake() {
+        SetInstance();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Start() {
+        StartCoroutine(ShowFPS());
+    }
+    private void SetInstance(){
+        instance = this;
+    }
+    IEnumerator ShowFPS(){
+        fps = (int)(1 / Time.smoothDeltaTime);
+        txtFps.text = "FPS: " + fps;
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(ShowFPS());
     }
 }

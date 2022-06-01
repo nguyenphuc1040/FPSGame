@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class ZombieCollider : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    [SerializeField]
+    private ZombieBehaviours zombieBehaviours;
+    [SerializeField]
+    private int percentDamge;
+    public void GotHitByBullet(int damage){
+        zombieBehaviours.GotHitByBullet(damage * percentDamge/100);
     }
 }

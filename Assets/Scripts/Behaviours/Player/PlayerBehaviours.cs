@@ -19,6 +19,11 @@ public class PlayerBehaviours : EntityBehaviours
     protected override void Death(){
         base.Death();
     }
+    protected override void GetHurt(int damage)
+    {
+        base.GetHurt(damage);
+        
+    }
     public void EventShooting(){
         if (eventShoot.isPressing){
             entityAnimator.SetBool("Shoot", true);

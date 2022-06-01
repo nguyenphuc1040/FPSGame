@@ -8,6 +8,8 @@ public class GunControl : MonoBehaviour
     public AudioSource asGun;
     public AudioClip acShoot, acReload;
     public PointerButton eventShoot;
+    public Transform tfBarrel;
+    public GameObject bullet;
     void Start()
     {
         
@@ -15,6 +17,9 @@ public class GunControl : MonoBehaviour
     void Update()
     {
         EventShooting();   
+        Raycast();
+    }
+    public void Raycast(){
     }
     public void EventShooting(){
         if (eventShoot.isPressing){
@@ -25,6 +30,7 @@ public class GunControl : MonoBehaviour
     }
     public void Shoot(){
         asGun.PlayOneShot(acShoot);
+        Instantiate(bullet, tfBarrel.position, tfBarrel.rotation);
     }
     public void Reload(){
         asGun.PlayOneShot(acReload);
