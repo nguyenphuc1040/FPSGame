@@ -10,12 +10,14 @@ public class GunControl : MonoBehaviour
     public PointerButton eventShoot;
     public Transform tfBarrel;
     public GameObject bullet;
+    public bool canPress = true;
     void Start()
     {
         
     }
     void Update()
     {
+        if (!canPress) return;
         EventShooting();   
         Raycast();
     }
@@ -29,10 +31,12 @@ public class GunControl : MonoBehaviour
         }
     }
     public void Shoot(){
+        if (!canPress) return;
         asGun.PlayOneShot(acShoot);
         Instantiate(bullet, tfBarrel.position, tfBarrel.rotation);
     }
     public void Reload(){
+        if (!canPress) return;
         asGun.PlayOneShot(acReload);
     }
 }

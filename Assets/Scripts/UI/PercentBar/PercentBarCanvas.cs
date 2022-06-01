@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class PercentBarCanvas : MonoBehaviour
 {
     public Image percentBar;
-    private int currentPercent;
+    private float currentPercent;
     private void Start() {
         percentBar = gameObject.GetComponent<Image>();
     }
-    public void SetPercentUI(int percent){
+    public void SetPercentUI(float percent){
         currentPercent = percent < 0 ? 0 : percent;
-        percentBar.fillAmount = currentPercent/100f;
+        percentBar.fillAmount = currentPercent;
     }
 }

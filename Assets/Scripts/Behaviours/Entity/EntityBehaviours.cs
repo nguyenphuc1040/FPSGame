@@ -6,8 +6,9 @@ public class EntityBehaviours : MonoBehaviour
 {
     protected EntityStats entityStats;
     protected Animator entityAnimator;
-    
+    protected AudioSource entityAS;
     protected virtual void Start(){
+        entityAS = gameObject.GetComponent<AudioSource>();
         entityStats = gameObject.GetComponent<EntityStats>();
         entityAnimator = gameObject.GetComponent<Animator>();
         entityStats.CurrentHealthPoint = entityStats.MaxHealthPoint;
@@ -16,6 +17,7 @@ public class EntityBehaviours : MonoBehaviour
 
     }
     protected virtual void Death(){
+        entityStats.IsAlive = false;
         entityAnimator.SetTrigger("Death");
     }
     protected virtual void GetHurt(int damage){

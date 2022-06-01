@@ -8,6 +8,7 @@ public class GamePlayController : MonoBehaviour
     public static GamePlayController instance;
     public Text txtFps;
     public int fps = 0;
+    public PercentBarCanvas playerHealthPercent;
     private void Awake() {
         SetInstance();
     }
@@ -22,5 +23,8 @@ public class GamePlayController : MonoBehaviour
         txtFps.text = "FPS: " + fps;
         yield return new WaitForSeconds(1f);
         StartCoroutine(ShowFPS());
+    }
+    public void SetPlayerHealthPercent(float percent){
+        playerHealthPercent.SetPercentUI(percent);
     }
 }

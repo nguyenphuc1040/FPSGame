@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class ZombieBehaviours : EntityBehaviours
 {
-    private bool canAttack;
+    [SerializeField]
+    private int damageAttack;
+    private bool canAttack = true;
     protected override void Start(){
         base.Start();
-        StartCoroutine(ReloadAttack());
     }
     protected override void Update(){
         base.Update();
     }
     protected override void Death(){
         base.Death();
+        entityAS.mute = true;
     }
     protected override void GetHurt(int damage){
         base.GetHurt(damage);
@@ -22,20 +24,21 @@ public class ZombieBehaviours : EntityBehaviours
         GetHurt(damage);
     }
     IEnumerator ReloadAttack(){
+        yield return new WaitForSeconds(0.5f);
         canAttack = true;
-        yield return new WaitForSeconds(3f);
-        StartCoroutine(ReloadAttack());
     }
-    private void OnCollisionEnter(Collision other) {
-        AttackPlayer(other.gameObject.tag);
-    }
+    // private void OnCollisionEnter(Collision other) {
+    //     AttackPlayer(other.gameObject);
+    // }
     private void OnCollisionStay(Collision other) {
-        AttackPlayer(other.gameObject.tag);
+        AttackPlayer(other.gameObject);
     }
-    private void AttackPlayer(string tag){
+    private void AttackPlayer(GameObject target){
         if (canAttack){
-            if (tag == "Player"){
-                Debug.Log("dâmge");
+            if (target.tag == "Player"){
+                canAttack = false;
+                StartCoroutine(ReloadAttack());
+                target.SendMessage("OnHurtByZombie",damageAttack);
             }
         }
     }
