@@ -16,11 +16,16 @@ public class PlayerMovement : EntityMovement
     private PointerButton pointerShoot;
     private float xRotation = 0f;
     private float yRotation = 0f;
+    private PlayerBehaviours playerBehaviours;
     protected override void Start()
     {
         base.Start();
+        InitComponent();
+        StartCoroutine(FootFake());
     }
-
+    private void InitComponent(){
+        playerBehaviours = gameObject.GetComponent<PlayerBehaviours>();
+    }
     protected override void Update()
     {
         base.Update();
@@ -29,7 +34,16 @@ public class PlayerMovement : EntityMovement
         base.Move();
         RotatePlayer();
     }
-    protected override void GetDirectionMove(){
+    IEnumerator FootFake(){
+        yield return new WaitForSeconds(0.3f * entityStats.MoveSpeed/entityStats.CurrentMoveSpeed);
+        if (moveX != 0 || moveZ != 0){
+            if (characterController.isGrounded){
+                playerBehaviours.OnRunning();       
+            }
+        }
+        StartCoroutine(FootFake());
+    }
+    protected override void GetDirectionMoveMoblie(){
         // Get Direction Player By Joystick
         if (characterController.isGrounded){
             Vector2 move = new Vector2(joystickMove.Horizontal, joystickMove.Vertical);
@@ -39,6 +53,19 @@ public class PlayerMovement : EntityMovement
             if (pointerJump.isPressing){
                 moveY = entityStats.JumpForce;
                 pointerJump.isPressing = false;
+            }
+        }
+    }
+    protected override void GetDirectionMovePC()
+    {
+        // return; // disable move in pc
+        if (characterController.isGrounded){
+            Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            move.Normalize();
+            moveX = move.x;
+            moveZ = move.y;
+            if (Input.GetKeyDown(KeyCode.Space)){
+                moveY = entityStats.JumpForce;
             }
         }
     }
@@ -53,9 +80,6 @@ public class PlayerMovement : EntityMovement
             xRotation -= dragRotatePlayer.X * Time.deltaTime;
             yRotation -= dragRotatePlayer.Y * Time.deltaTime;
         }
-        
-        
-        
         yRotation = Mathf.Clamp(yRotation, -50f, 50f);
         transform.localRotation = Quaternion.Euler(yRotation, -xRotation,0f);
     }

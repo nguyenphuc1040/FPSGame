@@ -11,6 +11,7 @@ public class EntityStats : MonoBehaviour
         set {currentHealthPoint = value < 0 ? 0 : value; }
     }
     public int MoveSpeed;
+    public int CurrentMoveSpeed;
     public int JumpForce;
     private bool isAlive = true;
     public bool IsAlive {

@@ -8,7 +8,7 @@ public class PlayerBehaviours : EntityBehaviours
     public PointerButton eventReload;
     public GunControl gunAkControl;
     public Camera mainCamera;
-    public AudioClip acHurt, acDeath;
+    public AudioClip acHurt, acDeath, acRun;
     protected override void Start(){
         base.Start();
         SetUpUI();
@@ -17,8 +17,8 @@ public class PlayerBehaviours : EntityBehaviours
         SetHealthPercentUI();
     }
     private void SetHealthPercentUI(){
-        if (GamePlayController.instance != null){
-            GamePlayController.instance.SetPlayerHealthPercent((float)entityStats.CurrentHealthPoint/ (float)entityStats.MaxHealthPoint);
+        if (GamePlayUIController.instance != null){
+            GamePlayUIController.instance.SetPlayerHealthPercent((float)entityStats.CurrentHealthPoint/ (float)entityStats.MaxHealthPoint);
         }
     }
     protected override void Update(){
@@ -43,8 +43,10 @@ public class PlayerBehaviours : EntityBehaviours
     public void EventShooting(){
         if (eventShoot.isPressing){
             entityAnimator.SetBool("Shoot", true);
+            entityStats.CurrentMoveSpeed = entityStats.MoveSpeed/2;
         } else {
             entityAnimator.SetBool("Shoot", false);
+            entityStats.CurrentMoveSpeed = entityStats.MoveSpeed;
         }
     }
     public void EventReload(){
@@ -57,5 +59,8 @@ public class PlayerBehaviours : EntityBehaviours
     public void OnHurtByZombie(int damage){
         GetHurt(damage);
         SetHealthPercentUI();
+    }
+    public void OnRunning(){
+        entityAS.PlayOneShot(acRun);
     }
 }

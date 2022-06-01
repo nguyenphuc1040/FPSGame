@@ -16,8 +16,11 @@ public class ZombieBehaviours : EntityBehaviours
     protected override void Death(){
         base.Death();
         entityAS.mute = true;
-        if (GamePlayController.instance != null) {
-            GamePlayController.instance.AlertText("<color=#cf3636>KILLED</color> <color=#fff>1+ ZOMBIE</color>");
+        if (GamePlayUIController.instance != null) {
+            GamePlayUIController.instance.AlertText("<color=#cf3636>KILLED</color> <color=#fff>1+ ZOMBIE</color>");
+        }
+        if (LevelManager.instance != null) {
+            LevelManager.instance.IncreaseKilledCount(1);
         }
     }
     protected override void GetHurt(int damage){
@@ -27,7 +30,7 @@ public class ZombieBehaviours : EntityBehaviours
         GetHurt(damage);
     }
     IEnumerator ReloadAttack(){
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         canAttack = true;
     }
     // private void OnCollisionEnter(Collision other) {

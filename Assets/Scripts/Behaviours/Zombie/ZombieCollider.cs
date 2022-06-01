@@ -11,8 +11,8 @@ public class ZombieCollider : MonoBehaviour
     public void GotHitByBullet(int damage){
         if (!zombieBehaviours.GetAlive()) return;
         if (percentDamge >= 100) {
-            if (GamePlayController.instance != null){
-                GamePlayController.instance.AlertHeadShot();
+            if (GamePlayUIController.instance != null){
+                GamePlayUIController.instance.AlertHeadShot();
             }
         }
         zombieBehaviours.GotHitByBullet(damage * percentDamge/100);

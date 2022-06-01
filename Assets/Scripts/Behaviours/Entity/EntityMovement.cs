@@ -5,28 +5,35 @@ using UnityEngine;
 public class EntityMovement : MonoBehaviour
 {
     protected EntityStats entityStats;
+    protected EntityBehaviours entityBehaviours;
     protected CharacterController characterController;
     protected Vector3 move;
     protected float moveX, moveY, moveZ;
 
     protected virtual void Start()
     {
+        InitComponent();
+    }
+    private void InitComponent(){
         characterController = gameObject.GetComponent<CharacterController>();
         entityStats = gameObject.GetComponent<EntityStats>();
+        entityBehaviours = gameObject.GetComponent<EntityBehaviours>();
+        entityStats.CurrentMoveSpeed = entityStats.MoveSpeed;
     }
 
     protected virtual void Update()
     {
         if (!entityStats.IsAlive) return;
         Move();
-        GetDirectionMove();
+        GetDirectionMoveMoblie();
+        GetDirectionMovePC();
     }
 
     protected virtual void Move(){
         
         if (characterController.isGrounded){
-            float x = moveX * entityStats.MoveSpeed; // move left right
-            float z = moveZ * entityStats.MoveSpeed; // move back forward
+            float x = moveX * entityStats.CurrentMoveSpeed; // move left right
+            float z = moveZ * entityStats.CurrentMoveSpeed; // move back forward
             move = transform.right*x + transform.forward*z;
             move.y = moveY;
         }
@@ -35,7 +42,12 @@ public class EntityMovement : MonoBehaviour
         moveY = 0;
     }
 
-    protected virtual void GetDirectionMove(){
+    protected virtual void GetDirectionMoveMoblie(){
+        if (characterController.isGrounded) {
+            // get x,y,z direction move;
+        }
+    }
+    protected virtual void GetDirectionMovePC(){
         if (characterController.isGrounded) {
             // get x,y,z direction move;
         }
