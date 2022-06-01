@@ -9,11 +9,19 @@ public class GamePlayController : MonoBehaviour
     public Text txtFps;
     public int fps = 0;
     public PercentBarCanvas playerHealthPercent;
+    private AudioSource asGameCtrl;
+    public AudioClip acHeadShot;
+    public Transform tfAlert;
+    public GameObject alertHeadShot, alertText;
     private void Awake() {
         SetInstance();
     }
     private void Start() {
+        InitGetComponent();
         StartCoroutine(ShowFPS());
+    }
+    private void InitGetComponent(){
+        asGameCtrl = gameObject.GetComponent<AudioSource>();        
     }
     private void SetInstance(){
         instance = this;
@@ -26,5 +34,16 @@ public class GamePlayController : MonoBehaviour
     }
     public void SetPlayerHealthPercent(float percent){
         playerHealthPercent.SetPercentUI(percent);
+    }
+    public void AlertHeadShot(){
+        GameObject alert = Instantiate(alertHeadShot, tfAlert);
+        Destroy(alert,1.5f);
+        asGameCtrl.PlayOneShot(acHeadShot);
+    }
+    public void AlertText(string content){
+        GameObject alert = Instantiate(alertText, tfAlert);
+        TextAlert alertCpn = alert.GetComponent<TextAlert>();
+        alertCpn.SetContent(content);
+        Destroy(alert,2.5f);
     }
 }

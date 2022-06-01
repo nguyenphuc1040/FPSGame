@@ -16,6 +16,9 @@ public class ZombieBehaviours : EntityBehaviours
     protected override void Death(){
         base.Death();
         entityAS.mute = true;
+        if (GamePlayController.instance != null) {
+            GamePlayController.instance.AlertText("<color=#cf3636>KILLED</color> <color=#fff>1+ ZOMBIE</color>");
+        }
     }
     protected override void GetHurt(int damage){
         base.GetHurt(damage);
@@ -41,5 +44,8 @@ public class ZombieBehaviours : EntityBehaviours
                 target.SendMessage("OnHurtByZombie",damageAttack);
             }
         }
+    }
+    public bool GetAlive(){
+        return entityStats.IsAlive;
     }
 }

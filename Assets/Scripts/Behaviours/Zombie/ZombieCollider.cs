@@ -9,6 +9,12 @@ public class ZombieCollider : MonoBehaviour
     [SerializeField]
     private int percentDamge;
     public void GotHitByBullet(int damage){
+        if (!zombieBehaviours.GetAlive()) return;
+        if (percentDamge >= 100) {
+            if (GamePlayController.instance != null){
+                GamePlayController.instance.AlertHeadShot();
+            }
+        }
         zombieBehaviours.GotHitByBullet(damage * percentDamge/100);
     }
 }

@@ -8,6 +8,9 @@ public class EntityBehaviours : MonoBehaviour
     protected Animator entityAnimator;
     protected AudioSource entityAS;
     protected virtual void Start(){
+        InitGetComponent();
+    }
+    private void InitGetComponent(){
         entityAS = gameObject.GetComponent<AudioSource>();
         entityStats = gameObject.GetComponent<EntityStats>();
         entityAnimator = gameObject.GetComponent<Animator>();

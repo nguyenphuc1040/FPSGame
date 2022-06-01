@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour
     private Vector3 prevPosition;
     void Start()
     {
-        Destroy(gameObject, 10f);
+        Destroy(gameObject, 5f);
     }
     void Update()
     {
@@ -21,23 +21,27 @@ public class Bullet : MonoBehaviour
         prevPosition = transform.position;
         transform.Translate(Vector3.forward*speed* Time.deltaTime);
         transform.Translate(Vector3.up*-4.9f*Time.deltaTime);
-        Raycast();
+        RaycastOne();
     }
-    private void Raycast(){
+    private void RaycastAll(){
         RaycastHit[] hits = Physics.RaycastAll(new Ray(prevPosition,(transform.position-prevPosition).normalized),(transform.position-prevPosition).magnitude);
         for (int i=0; i<hits.Length; i++){
-            if (hits[i].collider.gameObject.tag=="Zombie"){
-                GameObject bloodSpawn = Instantiate(blood,hits[i].point,Quaternion.LookRotation(hits[i].normal));
-                hits[i].collider.gameObject.SendMessage("GotHitByBullet",damage);
+        }
+    }
+    private void RaycastOne(){
+        RaycastHit hit; 
+        if (Physics.Raycast(prevPosition, (transform.position-prevPosition).normalized, out hit, (transform.position-prevPosition).magnitude)){
+            if (hit.collider.gameObject.tag=="Zombie"){
+                GameObject bloodSpawn = Instantiate(blood,hit.point,Quaternion.LookRotation(hit.normal));
+                hit.collider.gameObject.SendMessage("GotHitByBullet",damage);
                 Destroy(gameObject);
                 Destroy(bloodSpawn, 2f);
             }
-            if (hits[i].collider.gameObject.tag=="Metal"){
-                GameObject metanSpawn = Instantiate(metalImpact,hits[i].point, Quaternion.LookRotation(hits[i].normal));
+            if (hit.collider.gameObject.tag=="Metal"){
+                GameObject metanSpawn = Instantiate(metalImpact,hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy(gameObject);
                 Destroy(metanSpawn,3f);
             }
-            
         }
     }
 }
