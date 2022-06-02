@@ -29,6 +29,7 @@ public class GunControl : MonoBehaviour
     void Update()
     {
         if (!canPress) return;
+        Debug.DrawRay(tfBarrel.position, tfBarrel.TransformDirection(Vector3.forward) * 10, Color.green);
     }
     public void EventShooting(){
         if (eventShoot.isPressing){

@@ -80,9 +80,12 @@ public class GamePlayUIController : MonoBehaviour
         }
         pnlMission.SetActive(b);
     }
-    public void GameWin(){
+    public void GameWin(int level){
         pnlGameWin.SetActive(true);
         asGameCtrl.PlayOneShot(acVictory);
+        if (GameManager.instance != null){
+            GameManager.instance.SetLevelUnlock(level+1,true);
+        }
         Time.timeScale = 0;
     }
     public void GameOver(string content){
@@ -111,6 +114,10 @@ public class GamePlayUIController : MonoBehaviour
         if (GameManager.instance != null) {
             GameManager.instance.LoadScene(2);
         }
-
+    }
+    public void NextLevel(){
+        if (GameManager.instance != null){
+            GameManager.instance.NextLevel();
+        }
     }
 }

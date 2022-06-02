@@ -27,11 +27,15 @@ public class PlayerBehaviours : EntityBehaviours
         EventReload();
     }
     protected override void Death(){
+        
         if (!entityStats.IsAlive) return;
         base.Death();
+        eventShoot.isPressing = false;
+        entityAnimator.SetBool("Shoot", false);
         entityAS.PlayOneShot(acDeath);
         // disable Gun Shoot and Change CameraView
         gunAkControl.canPress = false;
+        gunAkControl.gunAnimator.SetBool("Shoot",false);
         gunAkControl.gunAnimator.SetTrigger("Death");
         if (GamePlayUIController.instance != null){
             GamePlayUIController.instance.GameOver("YOU LOST BY KILLED");

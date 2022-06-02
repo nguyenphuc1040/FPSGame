@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemLevelPlay : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public Text txtLevel, txtLock;
+    private int level;
+    public void SetInfoItem(int level, bool unlock){
+        this.level = level;
+        txtLevel.text = $"LEVEL {level+1}";
+        txtLock.text = unlock ? "<color=#fff>UNLOCKED</color>" : "<color=#c93232>LOCKED</color>";
+        this.gameObject.GetComponent<Button>().interactable = unlock;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void OnPressItem(){
+        if (GameManager.instance != null){
+            GameManager.instance.LoadLevel(level);
+        }
     }
 }

@@ -14,7 +14,7 @@ public class ZombieBehaviours : EntityBehaviours
     private void EventZombieSpawn(){
         if (LevelManager.instance != null){
             if (LevelManager.instance.currentZombie % 7 == 0){
-                entityStats.CurrentMoveSpeed *= 1.5f;
+                entityStats.CurrentMoveSpeed *= 2f;
                 entityAnimator.SetFloat("Walk",entityStats.CurrentMoveSpeed);
             }
         }

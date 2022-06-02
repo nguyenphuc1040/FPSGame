@@ -80,7 +80,7 @@ public class LevelManager : MonoBehaviour
             if (killedCount < killCountMission){
                 GamePlayUIController.instance.AlertText($"<color=#c41818>KILL AT LEAST {killCountMission} ZOMBIES</color>",4f);
             } else {
-                GamePlayUIController.instance.GameWin();
+                GamePlayUIController.instance.GameWin(level);
             }
         }
     }
