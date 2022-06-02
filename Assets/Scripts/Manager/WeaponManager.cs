@@ -19,7 +19,7 @@ public class WeaponManager : MonoBehaviour
         int count = maxBullet - currentBullet;
         if (bullet <= 0) {
             if (GamePlayUIController.instance != null) {
-                GamePlayUIController.instance.AlertText("NO MORE BULLET");
+                GamePlayUIController.instance.AlertText("NO MORE BULLET",3);
             }
             return 0;
         }
@@ -35,5 +35,12 @@ public class WeaponManager : MonoBehaviour
             GamePlayUIController.instance.SetBulletStore(bullet);
         }
         return result;
+    }
+    public void ReceiveBullet(int count){
+        bullet += count;
+        if (GamePlayUIController.instance != null){
+            GamePlayUIController.instance.AlertText($"<color=#00e06c>+{count} Bullet</color>",3);
+            GamePlayUIController.instance.SetBulletStore(bullet);
+        }
     }
 }

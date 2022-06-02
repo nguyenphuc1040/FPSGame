@@ -13,6 +13,7 @@ public class GamePlayUIController : MonoBehaviour
     public AudioClip acHeadShot;
     public Transform tfAlert;
     public GameObject alertHeadShot, alertText;
+    public GameObject pnlGameOver, pnlGameWin;
     private void Awake() {
         SetInstance();
     }
@@ -46,10 +47,17 @@ public class GamePlayUIController : MonoBehaviour
         Destroy(alert,2.5f);
         asGameCtrl.PlayOneShot(acHeadShot);
     }
-    public void AlertText(string content){
+    public void AlertText(string content, float timing){
         GameObject alert = Instantiate(alertText, tfAlert);
         TextAlert alertCpn = alert.GetComponent<TextAlert>();
         alertCpn.SetContent(content);
-        Destroy(alert,2.5f);
+        Destroy(alert,timing);
+    }
+    public void GameWin(){
+        pnlGameWin.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void GameOver(){
+        pnlGameOver.SetActive(true);
     }
 }

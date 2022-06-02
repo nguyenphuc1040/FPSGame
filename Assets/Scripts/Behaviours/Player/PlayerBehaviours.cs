@@ -33,6 +33,9 @@ public class PlayerBehaviours : EntityBehaviours
         // disable Gun Shoot and Change CameraView
         gunAkControl.canPress = false;
         gunAkControl.gunAnimator.SetTrigger("Death");
+        if (GamePlayUIController.instance != null){
+            GamePlayUIController.instance.GameOver();
+        }
     }
     protected override void GetHurt(int damage)
     {
@@ -65,5 +68,20 @@ public class PlayerBehaviours : EntityBehaviours
     }
     public void OnRunning(){
         entityAS.PlayOneShot(acRun);
+    }
+    public void ReceiveBullet(int count){
+        if (WeaponManager.instance != null) {
+            WeaponManager.instance.ReceiveBullet(count);
+        }
+    }
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag == "ItemSupport"){
+            other.gameObject.SendMessage("ReceiveItem", this.gameObject);
+        }
+        if (other.gameObject.tag == "Endpoint"){
+            if (GamePlayUIController.instance != null){
+                GamePlayUIController.instance.GameWin();
+            }
+        }
     }
 }

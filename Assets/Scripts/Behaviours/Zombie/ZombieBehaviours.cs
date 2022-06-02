@@ -17,7 +17,7 @@ public class ZombieBehaviours : EntityBehaviours
         base.Death();
         entityAS.mute = true;
         if (GamePlayUIController.instance != null) {
-            GamePlayUIController.instance.AlertText("<color=#cf3636>KILLED</color> <color=#fff>1+ ZOMBIE</color>");
+            GamePlayUIController.instance.AlertText("<color=#cf3636>KILLED</color> <color=#fff>1+ ZOMBIE</color>",2.5f);
         }
         if (LevelManager.instance != null) {
             LevelManager.instance.IncreaseKilledCount(1);
