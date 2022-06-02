@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     private int sceneLoadId;
     public int SceneLoadId {get {return sceneLoadId;}}
+    private int level = 0;
+    public int Level {get {return level;}}
     private void Awake() {
         SetInstance();
         TheFirstTimeInstall();

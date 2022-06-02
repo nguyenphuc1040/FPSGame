@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class ZombieMovement : EntityMovement
 {
-    public GameObject target;
+    private GameObject target;
     protected override void Start(){
         base.Start();
+        GetTarget("Player");
+    }
+    private void GetTarget(string name){
+        target = GameObject.Find(name);
     }
     protected override void FixedUpdate(){
         base.FixedUpdate();

@@ -37,6 +37,11 @@ public class PlayerMovement : EntityMovement
         base.Update();
     }
     protected override void Move(){
+        if (GamePlayUIController.instance != null){
+            if (GamePlayUIController.instance.isGameOver) {
+                return;
+            }
+        }
         base.Move();
         RotatePlayer();
     }
@@ -47,7 +52,7 @@ public class PlayerMovement : EntityMovement
                 playerBehaviours.OnRunning();       
             }
         }
-        StartCoroutine(FootFake());
+        if (entityStats.IsAlive) StartCoroutine(FootFake());
     }
     protected override void GetDirectionMoveMoblie(){
         // Get Direction Player By Joystick

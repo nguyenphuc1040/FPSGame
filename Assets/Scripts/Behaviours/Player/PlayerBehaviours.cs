@@ -34,7 +34,7 @@ public class PlayerBehaviours : EntityBehaviours
         gunAkControl.canPress = false;
         gunAkControl.gunAnimator.SetTrigger("Death");
         if (GamePlayUIController.instance != null){
-            GamePlayUIController.instance.GameOver();
+            GamePlayUIController.instance.GameOver("YOU LOST BY KILLED");
         }
     }
     protected override void GetHurt(int damage)
@@ -65,6 +65,9 @@ public class PlayerBehaviours : EntityBehaviours
     public void OnHurtByZombie(int damage){
         GetHurt(damage);
         SetHealthPercentUI();
+        if (GamePlayUIController.instance != null) {
+            GamePlayUIController.instance.SetScreenDamage(255);
+        }
     }
     public void OnRunning(){
         entityAS.PlayOneShot(acRun);
@@ -79,8 +82,8 @@ public class PlayerBehaviours : EntityBehaviours
             other.gameObject.SendMessage("ReceiveItem", this.gameObject);
         }
         if (other.gameObject.tag == "Endpoint"){
-            if (GamePlayUIController.instance != null){
-                GamePlayUIController.instance.GameWin();
+            if (LevelManager.instance != null){
+                LevelManager.instance.TakeEndpoint();
             }
         }
     }

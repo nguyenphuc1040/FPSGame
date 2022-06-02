@@ -7,8 +7,15 @@ using static TimeUtils.TimeConvert;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
-    public Text txtKilled, txtTiming;
-    public int killedCount, timeCount;
+    [SerializeField]
+    private List<int> timeCountLevel = new List<int>();
+    [SerializeField]
+    private List<int> killCountLevel = new List<int>();
+    public Text txtKilled, txtTiming, txtKillMission;
+    public int level, killedCount, timeCount, killCountMission;
+    private AudioSource audioSource;
+    public AudioClip acWarning;
+    public int maxZombie = 30, currentZombie = 0;
     private void Awake() {
         SetInstance();
     }
@@ -19,24 +26,43 @@ public class LevelManager : MonoBehaviour
     }
     void Start()
     {
-        timeCount = 1000;
+        GetInfoLevel();
+        InitComponent();
         StartCoroutine(TimeCountDown());
+    }
+    private void GetInfoLevel(){
+        if (GameManager.instance != null) {
+            level = GameManager.instance.Level;
+            timeCount = timeCountLevel[level];
+            killCountMission = killCountLevel[level];
+            txtKillMission.text = $"KILL AT LEAST {killCountMission} ZOMBIES";
+        }
+        if (GamePlayUIController.instance != null){
+            GamePlayUIController.instance.SetMissionInfo(level, IntToTime(timeCountLevel[level]), killCountLevel[level]);
+        }
+    }
+    private void InitComponent(){
+        audioSource = GetComponent<AudioSource>();
     }
     private void SetUpStatsLevel(){
         killedCount = 0;
         txtKilled.text = killedCount + "";
     }
-    void Update()
-    {
-        
-    }
     IEnumerator TimeCountDown(){
         yield return new WaitForSeconds(1f);
         if (timeCount <= 0) {
-            // GameOver
+            if (GamePlayUIController.instance != null){
+                GamePlayUIController.instance.GameOver("YOU LOST BY TIME OUT");
+            }
         } else {
             timeCount--;
             txtTiming.text = IntToTime(timeCount) + "";
+            if (timeCount <= 10) {
+                if (GamePlayUIController.instance != null) {
+                    audioSource.PlayOneShot(acWarning);
+                    GamePlayUIController.instance.SetScreenDamage(150);
+                }
+            }
             StartCoroutine(TimeCountDown());
         }
     }
@@ -44,5 +70,16 @@ public class LevelManager : MonoBehaviour
         killedCount += count;
         txtKilled.text = killedCount + "";
     }
-    
+    public void TakeEndpoint(){
+        if (GamePlayUIController.instance != null){
+            if (killedCount < killCountMission){
+                GamePlayUIController.instance.AlertText($"<color=#c41818>KILL AT LEAST {killCountMission} ZOMBIES</color>",4f);
+            } else {
+                GamePlayUIController.instance.GameWin();
+            }
+        }
+    }
+    public bool CheckZombieMax(){
+        return currentZombie < maxZombie;
+    }
 }

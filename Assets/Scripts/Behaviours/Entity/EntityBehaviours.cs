@@ -20,6 +20,7 @@ public class EntityBehaviours : MonoBehaviour
 
     }
     protected virtual void Death(){
+        if (!entityStats.IsAlive) return;
         entityStats.IsAlive = false;
         entityAnimator.SetTrigger("Death");
     }
