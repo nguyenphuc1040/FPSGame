@@ -14,7 +14,7 @@ public class GamePlayUIController : MonoBehaviour
     public AudioClip acHeadShot, acVictory;
     public Transform tfAlert;
     public GameObject alertHeadShot, alertText;
-    public GameObject pnlGameOver, pnlGameWin, pnlMission;
+    public GameObject pnlGameOver, pnlGameWin, pnlMission, btnNextLevel;
     public Image pnlScreenWarningDamage;
     private Color32 colorDamageScreen;
     private int damageScreen;
@@ -84,7 +84,11 @@ public class GamePlayUIController : MonoBehaviour
         pnlGameWin.SetActive(true);
         asGameCtrl.PlayOneShot(acVictory);
         if (GameManager.instance != null){
-            GameManager.instance.SetLevelUnlock(level+1,true);
+            if (level < GameManager.instance.maxLevel){
+                GameManager.instance.SetLevelUnlock(level+1,true);
+            } else {
+                btnNextLevel.SetActive(false);
+            }
         }
         Time.timeScale = 0;
     }

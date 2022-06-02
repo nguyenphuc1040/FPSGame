@@ -12,8 +12,7 @@ public class GameManager : MonoBehaviour
     public int SceneLoadId {get {return sceneLoadId;}}
     private int level = 0;
     public int Level {get {return level;}}
-    [SerializeField]
-    private int maxLevel;
+    public int maxLevel;
     private void Awake() {
         SetInstance();
         TheFirstTimeInstall();
