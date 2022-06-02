@@ -65,9 +65,9 @@ public class GamePlayUIController : MonoBehaviour
     }
     public void SetMissionInfo(int level, string time, int kill){
         txtMissionContent.text = @$"
-            LEVEL {level + 1}
-            Hãy nhìn xung quanh bầu trời, sẽ có 1 tia sáng chiếu lên và đó là đích đến của bạn
-            Nhiệm vụ của bạn là tiêu diệt ít nhất {kill} Zombie và đến đích thành công trong vòng {time} / Phút:Giây
+            <size=105>LEVEL {level + 1}</size>
+            Hãy nhìn xung quanh bầu trời, sẽ có <color=#a83232>1 tia sáng chiếu lên</color> và đó là đích đến của bạn
+            Nhiệm vụ của bạn là tiêu diệt ít nhất <color=#a83232>{kill} Zombie </color> và đến đích thành công trong vòng {time} phút
             Trên đường đi có những chòm sáng xanh, đó là nơi bạn có thể lấy thêm đạn cho súng
         ";
         MissionShow(true);
