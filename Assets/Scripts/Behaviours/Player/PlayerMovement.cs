@@ -6,6 +6,8 @@ using static PPKey.Setting;
 public class PlayerMovement : EntityMovement
 {
     [SerializeField]
+    private bool isMoblieControl;
+    [SerializeField]
     private Joystick joystickMove;
     [SerializeField]
     private ScreenDrag dragRotatePlayer;
@@ -55,6 +57,7 @@ public class PlayerMovement : EntityMovement
         if (entityStats.IsAlive) StartCoroutine(FootFake());
     }
     protected override void GetDirectionMoveMoblie(){
+        if (!isMoblieControl) return;
         // Get Direction Player By Joystick
         if (characterController.isGrounded){
             Vector2 move = new Vector2(joystickMove.Horizontal, joystickMove.Vertical);
@@ -69,7 +72,8 @@ public class PlayerMovement : EntityMovement
     }
     protected override void GetDirectionMovePC()
     {
-        // return; // disable move in pc
+        if (isMoblieControl) return;
+        // Get Direction Player By Input Keyboard
         if (characterController.isGrounded){
             Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             move.Normalize();

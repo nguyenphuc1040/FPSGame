@@ -11,7 +11,7 @@ public class GamePlayUIController : MonoBehaviour
     public int fps = 0;
     public PercentBarCanvas playerHealthPercent;
     private AudioSource asGameCtrl;
-    public AudioClip acHeadShot;
+    public AudioClip acHeadShot, acVictory;
     public Transform tfAlert;
     public GameObject alertHeadShot, alertText;
     public GameObject pnlGameOver, pnlGameWin, pnlMission;
@@ -82,6 +82,7 @@ public class GamePlayUIController : MonoBehaviour
     }
     public void GameWin(){
         pnlGameWin.SetActive(true);
+        asGameCtrl.PlayOneShot(acVictory);
         Time.timeScale = 0;
     }
     public void GameOver(string content){

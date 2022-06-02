@@ -16,6 +16,10 @@ public class LevelManager : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip acWarning;
     public int maxZombie = 30, currentZombie = 0;
+    [SerializeField]
+    private List<Transform> listEndPoint = new List<Transform>();
+    [SerializeField]
+    private GameObject endPoint;
     private void Awake() {
         SetInstance();
     }
@@ -36,6 +40,7 @@ public class LevelManager : MonoBehaviour
             timeCount = timeCountLevel[level];
             killCountMission = killCountLevel[level];
             txtKillMission.text = $"KILL AT LEAST {killCountMission} ZOMBIES";
+            Instantiate(endPoint, listEndPoint[level].position, Quaternion.identity);
         }
         if (GamePlayUIController.instance != null){
             GamePlayUIController.instance.SetMissionInfo(level, IntToTime(timeCountLevel[level]), killCountLevel[level]);

@@ -7,7 +7,7 @@ public class GunControl : MonoBehaviour
     public Animator gunAnimator;
     public AudioSource asGun;
     public AudioClip acShoot, acReload, acNoMoreBullet;
-    public PointerButton eventShoot;
+    public PointerButton eventShoot, eventReload;
     public Transform tfBarrel;
     public GameObject bullet;
     public bool canPress = true;
@@ -36,6 +36,7 @@ public class GunControl : MonoBehaviour
                 gunAnimator.SetBool("Shoot", false);
                 eventShoot.isPressing = false;
                 asGun.PlayOneShot(acNoMoreBullet);
+                eventReload.isPressing = true;
                 return;
             }
             gunAnimator.SetBool("Shoot", true);
