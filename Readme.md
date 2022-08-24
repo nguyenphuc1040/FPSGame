@@ -16,3 +16,4 @@
 ### Mẹo
 - Bắn trúng đầu sẽ khiến Zombie chết ngay lập tức
 - Bạn nên chú ý đến thời gian đếm ngược và số lượng Zombie tiêu diệt được trước khi đến vị trí của <b>hòm tiếp tế</b>.
+...
